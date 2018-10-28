@@ -1,0 +1,14 @@
+<div class="pad" style="width: 860px;">
+  {{questionText}}
+  {{question}}
+  <br />
+  <div *ngFor="let answer of answerArray,let i = index" (click)="selected(i)" >
+    <br *ngIf="type !== 'Symbols'" />
+    <button style="float: left; margin-right: 5px; margin-bottom: 5px;" *ngIf="type === 'Symbols'"><img height="175" width="175" src="{{answer}}" ></button>
+    <button class="btn btn-primary" *ngIf="type != 'Symbols'" [ngClass]="{disabled: isActive(i)} ">
+        {{answer}}
+    </button>
+  </div>
+  <br >
+  <button *ngIf="result" class="btn btn-success" style="clear: both;" type="button" (click)="selectQuestion()">Next Question</button>
+</div>

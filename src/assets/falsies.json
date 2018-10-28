@@ -1,0 +1,73 @@
+{
+  "Attractions": [
+    "Shawnee mountain",
+    "Franklyn lake",
+    "Lake takanassee"
+  ],
+  "Bird": [
+    "Eagle ",
+    "Parrot",
+    "Pelican"
+  ],
+  "Capital": [
+    "Trenton",
+    "Philadelphia",
+    "Monmouth Beach"
+  ],
+  "Cities": [
+    "New York City",
+    "Dublin",
+    "Washing  "
+  ],
+  "Flower": [
+    "Daffodils",
+    "Red Tulip",
+    "John quills"
+  ],
+  "Landforms": [
+    "Deserts",
+    "Glaciers",
+    "plateaus"
+  ],
+  "Landmarks": [
+    "Empire state building",
+    "Shawnee mountain",
+    "Eiffel tower"
+  ],
+  "Motto": [
+    "Peace and love",
+    "No man left behind",
+    "Equal rights"
+  ],
+  "Nickname": [
+    "Mountain state",
+    "Lake state",
+    "Natur state"
+  ],
+  "People": [
+    "Hillary Clinton",
+    "Eminem",
+    "Donald Trump"
+  ],
+  "Products": [
+    "cars",
+    "robots",
+    "trampolines"
+  ],
+  "Sports": [
+    "Bears ",
+    "Tigers",
+    "Wolverines"
+  ],
+  "Symbols": [
+    "http://statesymbolsusa.org/sites/statesymbolsusa.org/files/primary-images/sealofmichiganstateseal.jpg",
+    "http://images.civicheraldry.com/119/arizona_seal_n4143.gif",
+    "https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/OhiostateSealofOhio.jpg"
+  ],
+  "Tree": [
+    "oak",
+    "Crab apple tree",
+    "Red oak"
+  ]
+}
+

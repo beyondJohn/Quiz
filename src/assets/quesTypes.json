@@ -1,0 +1,18 @@
+{
+    "types": [
+        "Attractions",
+        "Bird",
+        "Capital",
+        "Cities",
+        "Flower",
+        "Landforms",
+        "Landmarks",
+        "Motto",
+        "Nickname",
+        "People",
+        "Products",
+        "Sports",
+        "Symbols",
+        "Tree"
+    ]
+}
