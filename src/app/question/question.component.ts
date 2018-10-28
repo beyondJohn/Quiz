@@ -11,22 +11,24 @@ export class QuestionComponent implements OnInit {
   @Input() questionText: string;
   questions: {};
   question: string;
-  questionTypes;
-  types;
-  type;
+  questionTypes: {};
+  types: Array<string>;
+  type: string;
   falsies: {};
-  falseAnswers;
+  falseAnswers: Array<string>;
   truths: {};
-  trueAnswers;
-  answerArray;
-  randomTracker: number;
+  trueAnswers: Array<string>;
+  answerArray: Array<string>;
+  randomQuestionNumTracker: number;
   result = false;
-  isSelected;
+  isSelected: Array<number>;
+  selectedQuestions: Array<number>;
   constructor(
     private http: HttpClient
   ) { }
 
   ngOnInit() {
+    this.selectedQuestions = [];
     this.getQuestions().subscribe(data => {
       this.questions = data;
       this.getQuestionTypes().subscribe(data => {
@@ -46,18 +48,20 @@ export class QuestionComponent implements OnInit {
     return this.isSelected.indexOf(index) != -1 ? true : false;
   }
   public selected(index) {
-    if(this.isSelected.indexOf(index) == -1){
-      if (this.trueAnswers.indexOf(this.answerArray[index]) != -1) {
+    if (this.isSelected.indexOf(index) == -1) {
+      if (this.trueAnswers.indexOf(this.answerArray[index]) != -1 && !this.result) {
         this.result = true;
         console.log("True");
       }
       else {
-        this.result = false;
-        this.isSelected.push(index);
-        console.log("False");
+        if(!this.result){
+          this.result = false;
+          this.isSelected.push(index);
+          console.log("False");
+        }
       }
     }
-    
+
   }
   getQuestions() {
     return this.http.get('/assets/quiz.json');
@@ -83,14 +87,30 @@ export class QuestionComponent implements OnInit {
   setTypes(qNum: number) {
     return this.types[qNum];
   }
-  getRandom() {
-    let random = Math.floor(Math.random() * 14);
-    if (this.randomTracker) {
-      if (random === this.randomTracker) {
+  getRandom(): number {
+    let random = Math.floor(Math.random() * this.types.length);
+    if (this.randomQuestionNumTracker) {
+      // the following is intended to make sure that the same questions don't get repeated
+      if (this.selectedQuestions.indexOf(random) == -1
+        && this.selectedQuestions.length < this.types.length) {
+        this.selectedQuestions.push(random);
+      }
+      else {
+        // duplicate question found, rerun random
+        if(this.selectedQuestions.length < this.types.length){
+          return this.getRandom();
+        }
+        else{
+          // if all questions have been asked, reset the array tracking asked questions
+          this.selectedQuestions = [];
+          return this.getRandom();
+        }
+      }
+      if (random === this.randomQuestionNumTracker) {
         return this.getRandom();
       }
     }
-    this.randomTracker = random;
+    this.randomQuestionNumTracker = random;
     return random;
   }
   public selectQuestion() {
