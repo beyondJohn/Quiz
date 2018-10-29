@@ -29,6 +29,7 @@ export class QuestionComponent implements OnInit {
   isSelected: Array<number>;
   selectedQuestions: Array<number>;
   statusObj: {};
+  incorrect:number = 0;
   constructor(
     private http: HttpClient,
     private _activemodal: NgbActiveModal,
@@ -67,19 +68,18 @@ export class QuestionComponent implements OnInit {
     if (this.isSelected.indexOf(index) == -1) {
       if (this.trueAnswers.indexOf(this.answerArray[index]) != -1 && !this.result) {
         this.result = true;
-        console.log("True");
-        this._behaviorSubject.setbehaviorSubject({ text: "Correct, Great Job!" });
+        this._behaviorSubject.setbehaviorSubject({ text: "Correct, Great Job!", incorrect: this.incorrect });
         let myModalObject = { "component": ModalComponent, "text": "Great Job!" };
         this._modalService.open("question", myModalObject);
       }
       else {
         if (!this.result) {
+          this.incorrect++;
           this.result = false;
           this.isSelected.push(index);
           let myModalObject = { "component": ModalComponent, "text": "Wrong, try again!" };
           this._behaviorSubject.setbehaviorSubject({ text: "Incorrect answer, try again!" });
           this._modalService.open("question", myModalObject);
-          console.log("False");
         }
       }
     }
@@ -136,6 +136,7 @@ export class QuestionComponent implements OnInit {
     return random;
   }
   public selectQuestion() {
+    this.incorrect = 0;
     this.isSelected = [];
     const qnum = this.getRandom();
     const type = this.setTypes(qnum);

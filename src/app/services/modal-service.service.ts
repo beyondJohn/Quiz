@@ -32,7 +32,7 @@ export class ModalService {
       this.isactive = true;
       const modalref = this._modalService.open(componentref).result.then((result) => {
         console.log('service object listening for close event');
-        if(this._behaviorSubject.myBehaviorObj["text"] == 'Correct, Great Job!'){
+        if(this._behaviorSubject.myBehaviorObj["text"].indexOf('Correct, Great Job!') != -1){
           this._behaviorSubject.setStatus({ text: "click" });
         }
         this.isactive = false;
@@ -40,6 +40,9 @@ export class ModalService {
       }, (reason) => {
         this.isactive = false;
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        if(this._behaviorSubject.myBehaviorObj["text"].indexOf('Correct, Great Job!') != -1){
+          this._behaviorSubject.setStatus({ text: "click" });
+        }
         this.close(source);
       });
       return modalref.then;

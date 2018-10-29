@@ -6,11 +6,11 @@ export class BehaviorSubjectService {
 
   constructor() { }
   //notifications
-  myBehaviorObj: object = {text:'question Text'};
+  myBehaviorObj: object = {text:'question Text', incorrect: 0};
   behaviorSubject = new BehaviorSubject<object>(this.updateBehaviorSubject());
   setbehaviorSubject(text): void {
     console.log("behaviorSubject: ", text);
-      this.myBehaviorObj = {text: text['text']};
+      this.myBehaviorObj = {text: text['text'], incorrect: text['incorrect'] };
       this.behaviorSubject.next(text);
   }
   private updateBehaviorSubject(): object {
