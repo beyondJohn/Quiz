@@ -1,5 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ModalComponent } from '../modal/modal.component';
+import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+
+import { ModalService } from '../services/modal-service.service';
+import { BehaviorSubjectService } from '../services/behavior-subject.service';
 
 @Component({
   selector: 'app-question',
@@ -23,8 +28,13 @@ export class QuestionComponent implements OnInit {
   result = false;
   isSelected: Array<number>;
   selectedQuestions: Array<number>;
+  statusObj: {};
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private _activemodal: NgbActiveModal,
+    private _modal: NgbModal,
+    private _modalService: ModalService,
+    private _behaviorSubject: BehaviorSubjectService
   ) { }
 
   ngOnInit() {
@@ -43,6 +53,12 @@ export class QuestionComponent implements OnInit {
         });
       });
     });
+    this._behaviorSubject.status.subscribe(obj => {
+      if (obj['text'] == 'click') {
+        this.selectQuestion();
+        this._behaviorSubject.setStatus({text:"close"});
+      }
+    })
   }
   public isActive(index) {
     return this.isSelected.indexOf(index) != -1 ? true : false;
@@ -52,11 +68,17 @@ export class QuestionComponent implements OnInit {
       if (this.trueAnswers.indexOf(this.answerArray[index]) != -1 && !this.result) {
         this.result = true;
         console.log("True");
+        this._behaviorSubject.setbehaviorSubject({ text: "Correct, Great Job!" });
+        let myModalObject = { "component": ModalComponent, "text": "Great Job!" };
+        this._modalService.open("question", myModalObject);
       }
       else {
-        if(!this.result){
+        if (!this.result) {
           this.result = false;
           this.isSelected.push(index);
+          let myModalObject = { "component": ModalComponent, "text": "Wrong, try again!" };
+          this._behaviorSubject.setbehaviorSubject({ text: "Incorrect answer, try again!" });
+          this._modalService.open("question", myModalObject);
           console.log("False");
         }
       }
@@ -97,10 +119,10 @@ export class QuestionComponent implements OnInit {
       }
       else {
         // duplicate question found, rerun random
-        if(this.selectedQuestions.length < this.types.length){
+        if (this.selectedQuestions.length < this.types.length) {
           return this.getRandom();
         }
-        else{
+        else {
           // if all questions have been asked, reset the array tracking asked questions
           this.selectedQuestions = [];
           return this.getRandom();
@@ -147,5 +169,8 @@ export class QuestionComponent implements OnInit {
       array[randomIndex] = temporaryValue;
     }
     return array;
+  }
+  showmodal() {
+    this._modal.open(ModalComponent);
   }
 }
